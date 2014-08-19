@@ -1,6 +1,10 @@
 - name: set hostname
   hostname: name={{ hostname }}
 
+- name: copy hostsfile
+  copy: src=hosts
+        dest=/etc/hosts
+
 - name: add mesos key
   apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xE56151BF state=present
 
@@ -10,8 +14,18 @@
 - name: update apt
   apt: update_cache=yes
 
-# - name: install prerequisites
-#   apt: pkg={{ item }}
-#   with_items:
-#     - mesos
-#     - marathon
+- name: install zookeeper
+  apt: pkg=zookeeperd
+  notify:
+    - restart zookeeper
+
+- name: put zookeeper conf
+  copy: src=zoo.cfg
+        dest=/etc/zookeeper/conf/zoo.cfg
+  notify:
+    - restart zookeeper
+
+- name: set my zookeeper id
+  template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  notify:
+    - restart zookeeper
