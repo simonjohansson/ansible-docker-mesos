@@ -1,0 +1,15 @@
+- name: install zookeeper
+  apt: pkg=zookeeperd
+  notify:
+    - restart zookeeper
+
+- name: put zookeeper conf
+  copy: src=zoo.cfg
+        dest=/etc/zookeeper/conf/zoo.cfg
+  notify:
+    - restart zookeeper
+
+- name: set my zookeeper id
+  template: src=myid.j2 dest=/var/lib/zookeeper/myid
+  notify:
+    - restart zookeeper

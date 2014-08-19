@@ -1,0 +1,5 @@
+- name: put mesos config
+  copy: src=zk
+        dest=/etc/mesos/zk
+  notify:
+    - restart mesos-slave

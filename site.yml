@@ -1,7 +1,14 @@
 ---
-- name: setup server
+- name: basic config
   hosts: all
   user: vagrant
   sudo: true
   roles:
     - core
+
+- name: setup mesos
+  hosts: all
+  user: vagrant
+  sudo: true
+  roles:
+    - mesos
