@@ -9,7 +9,3 @@
 
 - name: install mesos
   apt: pkg=mesos install_recommends=no
-
-- name: install marathon
-  apt: pkg=marathon
-  when: '"mesos-masters" in group_names'
