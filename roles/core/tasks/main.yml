@@ -1,0 +1,17 @@
+- name: set hostname
+  hostname: name={{ hostname }}
+
+- name: add mesos key
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xE56151BF state=present
+
+- name: add mesos repo
+  apt_repository: repo='deb http://repos.mesosphere.io/ubuntu trusty main' state=present
+
+- name: update apt
+  apt: update_cache=yes
+
+# - name: install prerequisites
+#   apt: pkg={{ item }}
+#   with_items:
+#     - mesos
+#     - marathon
