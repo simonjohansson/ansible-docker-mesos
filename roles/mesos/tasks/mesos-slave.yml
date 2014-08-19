@@ -1,5 +1,26 @@
-- name: put mesos config
+- name: put mesos slave config
   copy: src=zk
         dest=/etc/mesos/zk
   notify:
     - restart mesos-slave
+
+- name: install deimos
+  apt: pkg=deimos
+
+- name: install docker
+  apt: pkg=docker.io
+
+- name: put mesos slave containerizer_path config
+  copy: src=containerizer_path
+        dest=/etc/mesos-slave/containerizer_path
+  notify:
+    - restart mesos-slave
+
+- name: put mesos slave isolation config
+  copy: src=isolation
+        dest=/etc/mesos-slave/isolation
+  notify:
+    - restart mesos-slave
+
+- name: Create symlink from docker.io to docker
+  file: src=/usr/bin/docker.io dest=/usr/local/bin/docker state=link
