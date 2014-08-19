@@ -1,0 +1,22 @@
+```
+vagrant up
+ansible-playbook -i hosts site.yml -u vagrant -s --private-key=~/.vagrant.d/insecure_private_key
+ansible mesos-masters -a "sudo service marathon start" -i hosts -u vagrant --private-key=~/.vagrant.d/insecure_private_key
+ansible mesos-slaves -a "sudo docker pull libmesos/ubuntu" -i hosts -u vagrant --private-key=~/.vagrant.d/insecure_private_key
+
+cat > /tmp/test.json <<EOF
+{
+    "container": {
+    "image": "docker:///libmesos/ubuntu",
+    "options" : []
+  },
+  "id": "kehehe",
+  "instances": "5",
+  "cpus": ".5",
+  "mem": "128",
+  "uris": [ ],
+  "cmd": "while sleep 10; do date -u +%T; done"
+}
+EOF
+curl -X POST -H "Content-Type: application/json" mesos-master1:8080/v2/apps -d@/tmp/test.json
+```
