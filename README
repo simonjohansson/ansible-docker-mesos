@@ -1,5 +1,6 @@
 Horrible half day hack to bring up mesos+docker with ansible. I have never used ansible before so this is full of bad practices, Im sure
 
+
 ```
 vagrant up
 ansible-playbook -i hosts site.yml -u vagrant -s --private-key=~/.vagrant.d/insecure_private_key
